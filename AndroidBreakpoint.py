@@ -52,7 +52,7 @@ def static_breakpoint(target_type):
         idc.AddBpt(base + init)
         print('\tbp the init on the %x' % (base + init))
         print("\nbp init finished")
-    except BaseException, e:
+    except BaseException as e:
         print(e)
 
 
@@ -94,11 +94,11 @@ def dynamic_breakpoint(targe_type):
         module_base = idc.GetNextModule(module_base)
 
     if has_linker == False:
-        print '[*]unable to find linker module base'
+        print('[*]unable to find linker module base')
         return
 
     module_size = idc.GetModuleSize(module_base)
-    print '[*]found linker base=>0x%08X, Size=0x%08X' % (module_base, module_size)
+    print('[*]found linker base=>0x%08X, Size=0x%08X' % (module_base, module_size))
 
     print("\t[-]begin to search DT_INIT")
     init_func_ea = 0
@@ -119,7 +119,7 @@ def dynamic_breakpoint(targe_type):
     if(findcode==False):
         print("can't find bytecode")
         return
-    print "\t[-]found INIT=>0x%08X INIT_ARRAY=>0x%08X" % (init_func_ea, init_array_ea)
+    print("\t[-]found INIT=>0x%08X INIT_ARRAY=>0x%08X" % (init_func_ea, init_array_ea))
     print("\t[-]try set breakpoint there")
     if targe_type==12:
         idc.AddBpt(init_func_ea)
@@ -204,7 +204,7 @@ class myIdaPlugin(idaapi.plugin_t):
             register(bpInitArray)
             idaapi.attach_action_to_menu("Edit/AndroidBreakpoint/",bpInit.name,idaapi.SETMENU_APP)
             idaapi.attach_action_to_menu("Edit/AndroidBreakpoint/", bpInitArray.name, idaapi.SETMENU_APP)
-        except BaseException, e:
+        except BaseException as e:
             print(e)
 
         idainfo=idaapi.get_inf_structure()
@@ -219,8 +219,8 @@ class myIdaPlugin(idaapi.plugin_t):
     def run(self, arg):
         try:
             print("AndroidBreakpoint run")
-        except BaseException, e:
-            print e
+        except BaseException as e:
+            print(e)
 
 def PLUGIN_ENTRY():
 
